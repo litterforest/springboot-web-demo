@@ -1,0 +1,32 @@
+package com.softd.test.springboot.web.demo.entity;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.validator.constraints.Range;
+
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
+import java.util.Date;
+
+/**
+ * 功能描述
+ *
+ * @author cobee
+ * @since 2020-10-03
+ */
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class User implements Serializable {
+    private static final long serialVersionUID = -295302701871986004L;
+    private Long userId;
+    private String name;
+    @Range(min = 0, max = 1, message = "年龄值只能是0或1")
+    private Integer age;
+    @NotNull(message = "出生日期不能为空")
+    private Date birthday;
+}
