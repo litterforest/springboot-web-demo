@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Date;
+import java.util.TimeZone;
+
 /**
  * 功能描述
  *
@@ -39,8 +42,10 @@ public class TestController {
      * @return
      */
     @PostMapping("/listUser1")
-    public User listUser1(@RequestParam("password") String password, User user) {
+    public User listUser1(@RequestParam(value = "password", required = false) String password, User user) {
         System.err.println("password:" + password);
+        System.out.println(new Date());
+        System.out.println(TimeZone.getDefault());
         return user;
     }
 
@@ -58,7 +63,7 @@ public class TestController {
     }
 
     @PostMapping("/saveUser")
-    public String saveUser(@RequestBody @Validated User user) {
-        return "success";
+    public User saveUser(@RequestBody @Validated User user) {
+        return user;
     }
 }

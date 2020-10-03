@@ -29,23 +29,27 @@ public class GlobalExceptionHandler implements HandlerExceptionResolver {
         mv.setView(view);
         // 参数没有校验通过的处理方式
         if (ex instanceof MethodArgumentNotValidException) {
-            MethodArgumentNotValidException methodArgumentNotValidException = (MethodArgumentNotValidException) ex;
-            BindingResult bindingResult = methodArgumentNotValidException.getBindingResult();
-            List<ObjectError> errors = bindingResult.getAllErrors();
-            StringBuilder sbuff = new StringBuilder();
-            for (int i = 0; i < errors.size(); i++) {
-                if (i > 0) {
-                    sbuff.append(";");
-                }
-                sbuff.append(errors.get(i).getDefaultMessage());
-            }
             mv.addObject("status", "fail");
             mv.addObject("errCode", "入参校验失败");
-            mv.addObject("errMsg", sbuff.toString());
+            mv.addObject("errMsg", getValidateErrMsg((MethodArgumentNotValidException) ex));
         } else {
             mv.addObject("status", "fail");
             mv.addObject("errMsg", ex.getMessage());
         }
         return mv;
+    }
+
+    private String getValidateErrMsg(MethodArgumentNotValidException ex) {
+        MethodArgumentNotValidException methodArgumentNotValidException = ex;
+        BindingResult bindingResult = methodArgumentNotValidException.getBindingResult();
+        List<ObjectError> errors = bindingResult.getAllErrors();
+        StringBuilder sbuff = new StringBuilder();
+        for (int i = 0; i < errors.size(); i++) {
+            if (i > 0) {
+                sbuff.append(";");
+            }
+            sbuff.append(errors.get(i).getDefaultMessage());
+        }
+        return sbuff.toString();
     }
 }
