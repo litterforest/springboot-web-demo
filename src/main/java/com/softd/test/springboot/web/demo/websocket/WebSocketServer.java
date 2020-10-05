@@ -4,6 +4,7 @@ import com.softd.test.springboot.web.demo.exception.WebSocketOprException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
+import org.springframework.web.context.request.async.DeferredResult;
 
 import javax.websocket.OnClose;
 import javax.websocket.OnError;

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.async.DeferredResult;
 
 import java.util.Date;
 import java.util.TimeZone;
@@ -65,5 +66,12 @@ public class TestController {
     @PostMapping("/saveUser")
     public User saveUser(@RequestBody @Validated User user) {
         return user;
+    }
+
+    @GetMapping("/testDeferred")
+    public DeferredResult<String> testDeferred() {
+        DeferredResult<String> deferredResult = new DeferredResult<>();
+        deferredResult.setErrorResult("超时返回");
+        return deferredResult;
     }
 }
