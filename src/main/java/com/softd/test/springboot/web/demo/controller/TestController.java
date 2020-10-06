@@ -1,6 +1,7 @@
 package com.softd.test.springboot.web.demo.controller;
 
 import com.softd.test.springboot.web.demo.entity.User;
+import com.softd.test.springboot.web.demo.util.WebParamValidUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -74,4 +75,10 @@ public class TestController {
         deferredResult.setErrorResult("超时返回");
         return deferredResult;
     }
+
+    @GetMapping("/testManuValid")
+    public String testManuValid(User user) {
+        return WebParamValidUtils.valid(user);
+    }
+
 }

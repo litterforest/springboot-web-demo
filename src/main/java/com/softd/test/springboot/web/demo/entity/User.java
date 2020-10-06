@@ -8,6 +8,7 @@ import lombok.Setter;
 import org.hibernate.validator.constraints.Range;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
@@ -25,7 +26,9 @@ import java.util.Date;
 public class User implements Serializable {
     private static final long serialVersionUID = -295302701871986004L;
     private Long userId;
+    @NotBlank(message = "名称不能为空")
     private String name;
+    @NotNull(message = "年龄不能为空")
     @Range(min = 0, max = 1, message = "年龄值只能是0或1")
     private Integer age;
     @NotNull(message = "出生日期不能为空")
