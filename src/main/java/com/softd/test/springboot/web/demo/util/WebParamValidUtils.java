@@ -6,6 +6,7 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * 功能描述
@@ -35,6 +36,14 @@ public abstract class WebParamValidUtils {
             idx++;
         }
         return sbuff.toString();
+    }
+
+    public static String valid01(Object obj) {
+        //开始校验
+        Set<ConstraintViolation<Object>> result = validator.validate(obj);
+        String resultStr = result.stream().map(constraint -> constraint.getMessage()).
+                collect(Collectors.joining(";"));
+        return resultStr;
     }
 
 }
