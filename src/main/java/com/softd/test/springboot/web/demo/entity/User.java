@@ -25,6 +25,11 @@ import java.util.Date;
 @AllArgsConstructor
 public class User implements Serializable {
     private static final long serialVersionUID = -295302701871986004L;
+
+    public User(String name) {
+        this.name = name;
+    }
+
     private Long userId;
     @NotBlank(message = "名称不能为空")
     private String name;
