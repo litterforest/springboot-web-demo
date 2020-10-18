@@ -6,6 +6,7 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
 
 /**
@@ -43,6 +44,8 @@ public abstract class WebParamValidUtils {
         Set<ConstraintViolation<Object>> result = validator.validate(obj);
         String resultStr = result.stream().map(t -> t.getMessage()).
                 collect(Collectors.joining(";"));
+        Runnable r = () -> System.out.println("");
+        Callable<String> c = () -> "";
         return resultStr;
     }
 
