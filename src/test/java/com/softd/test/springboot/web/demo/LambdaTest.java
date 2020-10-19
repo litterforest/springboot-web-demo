@@ -1,6 +1,7 @@
 package com.softd.test.springboot.web.demo;
 
 import com.softd.test.springboot.web.demo.entity.Book;
+import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -51,7 +52,9 @@ public class LambdaTest {
 //        test3();
 //        test4();
 //        test5();
-        test6();
+//        test6();
+//        test7();
+        test8();
     }
 
     /**
@@ -117,6 +120,78 @@ public class LambdaTest {
         Optional<Book> optionalBook = bookList.stream().collect(Collectors.maxBy(Comparator.comparing(Book::getPrice).
                 thenComparing(Book::getPublishDate)));
         System.out.println(optionalBook.get());
+    }
+
+    /**
+     * 对集合进行分组
+     */
+    private static void test7() throws InterruptedException {
+        // 根据类型进行分组
+        Map<String, List<Book>> listMap = bookList.stream().collect(Collectors.groupingBy(Book::getType));
+        listMap.keySet().stream().sequential().forEach(key -> {
+            System.err.println(key + ":");
+            try {
+                Thread.sleep(100);
+                listMap.get(key).stream().sequential().forEach(System.out::println);
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    /**
+     * 分组统计每个类别的个数
+     */
+    private static void test8() {
+        Map<String, Long> collect = bookList.stream().collect(Collectors.groupingBy(Book::getType, Collectors.counting()));
+        System.out.println(collect);
+    }
+
+    /**
+     * 分组统计每个类别书的格价总和
+     */
+    @Test
+    public void test9() {
+        Map<String, Double> collect = bookList.stream().collect(Collectors.groupingBy(Book::getType, Collectors.summingDouble(Book::getPrice)));
+        System.out.println(collect);
+    }
+
+    /**
+     * 分组统计每个类别书的平均格价
+     */
+    @Test
+    public void test10(){
+        Map<String, Double> collect = bookList.stream().collect(Collectors.groupingBy(Book::getType, Collectors.averagingDouble(Book::getPrice)));
+        System.out.println(collect);
+    }
+
+    /**
+     * 找出每个分类中最贵的书
+     */
+    @Test
+    public void test11(){
+        Map<String, Optional<Book>> collect = bookList.stream().collect(Collectors.groupingBy(Book::getType, Collectors.maxBy(Comparator.comparing(Book::getPrice))));
+        System.out.println(collect);
+    }
+
+    /**
+     * 找出每个分类中最便宜的书
+     */
+    @Test
+    public void test12(){
+        Map<String, Optional<Book>> collect = bookList.stream().collect(Collectors.groupingBy(Book::getType, Collectors.minBy(Comparator.comparing(Book::getPrice))));
+        System.out.println(collect);
+    }
+
+    /**
+     * 找出每个分类中最贵的并且是最新发布的书
+     */
+    @Test
+    public void test13(){
+        Map<String, Optional<Book>> collect = bookList.stream().collect(Collectors.groupingBy(Book::getType,
+                Collectors.maxBy(Comparator.comparing(Book::getPrice).thenComparing(Book::getPublishDate))));
+        System.out.println(collect);
     }
 
 }
